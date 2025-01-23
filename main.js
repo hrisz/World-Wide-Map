@@ -30,21 +30,21 @@ const map = new Map({
 
 // Static data for predefined locations
 const staticLocations = [
-  {
-    name: "Bandung City Hall",
-    coordinate: [107.6098, -6.9175],
-    content: "<strong>Bandung City Hall</strong><br>Koordinat: -6.9175, 107.6098",
-  },
-  {
-    name: "Gedung Sate",
-    coordinate: [107.6191, -6.9025],
-    content: "<strong>Gedung Sate</strong><br>Koordinat: -6.9025, 107.6191",
-  },
-  {
-    name: "Trans Studio Bandung",
-    coordinate: [107.6348, -6.9266],
-    content: "<strong>Trans Studio Bandung</strong><br>Koordinat: -6.9266, 107.6348",
-  },
+  // {
+  //   name: "Bandung City Hall",
+  //   coordinate: [107.6098, -6.9175],
+  //   content: "<strong>Bandung City Hall</strong><br>Koordinat: -6.9175, 107.6098",
+  // },
+  // {
+  //   name: "Gedung Sate",
+  //   coordinate: [107.6191, -6.9025],
+  //   content: "<strong>Gedung Sate</strong><br>Koordinat: -6.9025, 107.6191",
+  // },
+  // {
+  //   name: "Trans Studio Bandung",
+  //   coordinate: [107.6348, -6.9266],
+  //   content: "<strong>Trans Studio Bandung</strong><br>Koordinat: -6.9266, 107.6348",
+  // },
 ];
 
 // Render static locations on the map
@@ -274,7 +274,7 @@ function findNearestParking(userCoordinates) {
     // Show the nearest parking location in a SweetAlert
     Swal.fire({
       icon: "success",
-      title: "Lokasi Parkir Terdekat Ditemukan!",
+      title: "Lokasi Terdekat Telah Ditemukan!",
       html: `
         <strong>Nama:</strong> ${nearestLocation.name}<br>
         <strong>Koordinat:</strong> ${nearestLocation.coordinate[1].toFixed(5)}, ${nearestLocation.coordinate[0].toFixed(5)}<br>
