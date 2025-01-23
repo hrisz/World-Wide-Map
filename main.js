@@ -162,7 +162,6 @@ function displayPopupForCoordinate(coordinate, content) {
 }
 
 function addUserLocationMarker() {
-
   const geolocationOptions = {
     enableHighAccuracy: true,
     timeout: 15000, // Adjust as needed
@@ -199,6 +198,46 @@ function addUserLocationMarker() {
         map.getView().setCenter(fromLonLat(userCoordinates));
         map.getView().setZoom(17);
 
+        // Fetch location details using Nominatim API
+        const [longitude, latitude] = userCoordinates;
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lon=${longitude}&lat=${latitude}`;
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            const locationDetails = data.display_name || "Lokasi tidak ditemukan";
+            console.log("Lokasi pengguna:", locationDetails);
+
+            // Create Tailwind-styled popup
+            const popupElement = document.createElement("div");
+            popupElement.className = `
+              bg-white shadow-lg rounded-lg p-4 max-w-[15rem] max-h-[8rem] text-sm
+              text-gray-800 border border-gray-200 transform transition-all duration-300 hover:scale-105
+            `;
+            popupElement.innerHTML = `
+              <h3 class="flex justify-center font-semibold text-white py-1 mb-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-md">Lokasi Anda</h3>
+              <p class="text-xs">${locationDetails}</p>
+            `;
+
+            const popup = new Overlay({
+              element: popupElement,
+              positioning: "bottom-center",
+              stopEvent: false,
+              offset: [0, -50],
+            });
+
+            map.addOverlay(popup);
+            popup.setPosition(fromLonLat(userCoordinates));
+          })
+          .catch((error) => {
+            console.error("Error fetching location details:", error);
+            Swal.fire({
+              title: "Gagal Mendapatkan Informasi Lokasi",
+              text: "Tidak dapat mengambil detail lokasi dari API.",
+              icon: "error",
+            });
+          });
+
         // Find nearest parking
         findNearestParking(userCoordinates);
       },
@@ -214,6 +253,7 @@ function addUserLocationMarker() {
     );
   }
 }
+
 
 
 // Fungsi untuk menghitung jarak antara dua koordinat (Haversine formula)
